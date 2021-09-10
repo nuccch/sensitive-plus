@@ -75,7 +75,7 @@ log.info(JsonMapper.nonNullMapper().toJson(userEntity));
 }
 ```
 
-# 5 、DFA算法 脱敏
+# 5 、DFA算法 敏感词库脱敏
 
 读取敏感词库 com.yhq.sensitive.util.SensitiveWordInit
 敏感词工具类 com.yhq.sensitive.util.SensitiveWordFilter

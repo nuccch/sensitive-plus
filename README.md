@@ -75,12 +75,12 @@ log.info(JsonMapper.nonNullMapper().toJson(userEntity));
 }
 ```
 
-# 5 、DFA算法
+# 5 、DFA算法 脱敏
 
 读取敏感词库 com.yhq.sensitive.util.SensitiveWordInit
 敏感词工具类 com.yhq.sensitive.util.SensitiveWordFilter
 
-由于一些词汇违规，所以以拼音代替，请自行脑部
+<font color='red'>由于一些词汇违规，所以以拼音代替，请自行脑部</font>
 
 |方法|作用描述|
 | --------| :----: |

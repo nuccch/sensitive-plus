@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-class SensitiveTests {
+public class SensitiveTests {
 
 	@Test
 	public void test() {

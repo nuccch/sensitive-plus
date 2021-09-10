@@ -44,6 +44,13 @@ com.yhq.sensitive.SensitiveTests.test
 @SensitiveInfo(pattern = "(?<=\\w{6})\\w(?=\\w{4})",replaceChar = "*")
 ```
 
+# 4 、日志脱敏
+
+user 为实体对象
+```
+log.info(JsonMapper.nonNullMapper().toJson(userEntity));
+```
+
 整体测试结果如下
 
 ```
@@ -66,11 +73,4 @@ com.yhq.sensitive.SensitiveTests.test
     "bankCardCustomizePattern":"621226*********2455",
     "bankCardLength":"621226*********2455"
 }
-```
-
-# 4 、日志脱敏
-
-user 为实体对象
-```
-log.info(JsonMapper.nonNullMapper().toJson(userEntity));
 ```

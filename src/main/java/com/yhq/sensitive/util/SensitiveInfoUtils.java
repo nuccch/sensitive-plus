@@ -117,7 +117,7 @@ public class SensitiveInfoUtils {
         }
         return StringUtils.left(cardNum, begin).concat(StringUtils.removeStart(
                 StringUtils.leftPad(StringUtils.right(cardNum, end), StringUtils.length(cardNum), "*"),
-                "******"));
+                getSensitiveInfo(begin)));
     }
 
     /**
@@ -163,12 +163,7 @@ public class SensitiveInfoUtils {
      * @return 返回组装后的长度
      */
     private static String getSensitiveInfo(int length){
-        StringBuilder senBuffer = new StringBuilder();
-        senBuffer.append("*");
-        while (StringUtils.length(senBuffer.toString()) < length){
-            senBuffer.append("*");
-        }
-        return senBuffer.toString();
+        return StringUtils.repeat("*", length);
     }
 
 }

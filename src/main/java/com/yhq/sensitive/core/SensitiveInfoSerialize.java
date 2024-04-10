@@ -62,7 +62,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements
         if(begin == 0 && end == 0){
             gen.writeString(strategy.desensitizationByPattern(value,pattern,replaceChar));
         }else{
-            gen.writeString(strategy.desensitization(value,begin,end));
+            gen.writeString(strategy.desensitization(value,replaceChar,begin,end));
         }
 
     }

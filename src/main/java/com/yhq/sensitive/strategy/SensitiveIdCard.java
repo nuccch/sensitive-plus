@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveDefaultLengthEnum;
+import com.yhq.sensitive.enums.SensitiveStrategyLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -11,12 +11,11 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveIdCard implements IStrategy {
 
     @Override
-    public String desensitization(String idCardNum,int begin ,int end) {
-        if(begin != SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin() && begin !=0 &&
-                end != SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd() && end !=0){
-            return SensitiveInfoUtils.idCardNum(idCardNum,begin,end);
+    public String desensitization(String idCardNum,String replace,int begin ,int end) {
+        if(end != SensitiveStrategyLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd() && end !=0){
+            return SensitiveInfoUtils.idCard(idCardNum, replace, end);
         }
-        return SensitiveInfoUtils.idCardNum(idCardNum, SensitiveDefaultLengthEnum.ID_CARD_NUM.getBegin(), SensitiveDefaultLengthEnum.ID_CARD_NUM.getEnd());
+        return SensitiveInfoUtils.idCard(idCardNum, replace, SensitiveStrategyLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
     }
 
 }

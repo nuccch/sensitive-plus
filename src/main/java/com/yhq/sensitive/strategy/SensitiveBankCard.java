@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveDefaultLengthEnum;
+import com.yhq.sensitive.enums.SensitiveStrategyLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -11,12 +11,13 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveBankCard implements IStrategy {
 
     @Override
-    public String desensitization(String bankCard,int begin, int end) {
-        if(begin != SensitiveDefaultLengthEnum.BANKCARD.getBegin() && begin !=0 &&
-                end != SensitiveDefaultLengthEnum.BANKCARD.getEnd() && end !=0){
-            return SensitiveInfoUtils.bankCard(bankCard,begin,end);
+    public String desensitization(String bankCard,String replace,int begin, int end) {
+        if(begin != SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin() && begin !=0 &&
+                end != SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd() && end !=0){
+            return SensitiveInfoUtils.bankCard(bankCard,replace,begin,end);
         }
-        return SensitiveInfoUtils.bankCard(bankCard, SensitiveDefaultLengthEnum.BANKCARD.getBegin(), SensitiveDefaultLengthEnum.BANKCARD.getEnd());
+        return SensitiveInfoUtils.bankCard(bankCard, replace,
+                SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.yhq.sensitive.util;
+package com.yhq.sensitive.core;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;

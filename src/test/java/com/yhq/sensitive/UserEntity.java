@@ -1,6 +1,7 @@
 package com.yhq.sensitive;
 
 import com.yhq.sensitive.annotation.*;
+import com.yhq.sensitive.constant.SensitiveReplaceChars;
 import lombok.Builder;
 import lombok.Data;
 
@@ -24,7 +25,7 @@ public class UserEntity implements Serializable {
     /**
      * 中文姓名--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveChineseName.class, begin = 1)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveChineseName.class, begin = 1, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String userNameLength;
 
     /**
@@ -36,7 +37,7 @@ public class UserEntity implements Serializable {
     /**
      * 密码--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitivePassword.class, begin = 6)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitivePassword.class, begin = 6, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String passwordLength;
 
     /**
@@ -48,7 +49,7 @@ public class UserEntity implements Serializable {
     /**
      * 身份证--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveIdCard.class, end = 4)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveIdCard.class, end = 4, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String idCardLength;
 
     /**
@@ -60,7 +61,7 @@ public class UserEntity implements Serializable {
     /**
      * 固话--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveFixedPhone.class, end = 4)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveFixedPhone.class, end = 4, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String fixedPhoneLength;
 
     /**
@@ -72,7 +73,7 @@ public class UserEntity implements Serializable {
     /**
      * 手机--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveMobile.class,begin = 3,end = 4)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveMobile.class,begin = 3,end = 4, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String mobileLength;
 
     /**
@@ -84,7 +85,7 @@ public class UserEntity implements Serializable {
     /**
      * 地址--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveAddress.class, begin = 6)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveAddress.class, begin = 6, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String addressLength;
 
     /**
@@ -96,7 +97,7 @@ public class UserEntity implements Serializable {
     /**
      * 邮箱--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveEmail.class, begin = 1)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveEmail.class, begin = 1, replaceChar = SensitiveReplaceChars.ASTERISK_PATTERN_EMAIL)
     private String emailLength;
 
     /**
@@ -108,12 +109,12 @@ public class UserEntity implements Serializable {
     /**
      * 银行卡号--自定义正则
      */
-    @SensitiveInfo(pattern = "(?<=\\w{6})\\w(?=\\w{4})",replaceChar = "*")
+    @SensitiveInfo(pattern = "(?<=\\w{6})\\w(?=\\w{4})",replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String bankCardCustomizePattern;
 
     /**
      * 银行卡号--长度
      */
-    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveBankCard.class, begin = 6, end = 4)
+    @SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveBankCard.class, begin = 6, end = 4, replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT)
     private String bankCardLength;
 }

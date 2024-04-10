@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveDefaultLengthEnum;
+import com.yhq.sensitive.enums.SensitiveStrategyLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -11,12 +11,13 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveMobile implements IStrategy {
 
     @Override
-    public String desensitization(String mobile,int begin ,int end) {
-        if(begin != SensitiveDefaultLengthEnum.MOBILE.getBegin() && begin !=0 &&
-                end != SensitiveDefaultLengthEnum.MOBILE.getEnd() && end !=0){
-            return SensitiveInfoUtils.mobilePhone(mobile,begin,end);
+    public String desensitization(String mobile,String replace,int begin ,int end) {
+        if(begin != SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin() && begin !=0 &&
+                end != SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd() && end !=0){
+            return SensitiveInfoUtils.mobilePhone(mobile,replace,begin,end);
         }
-        return SensitiveInfoUtils.mobilePhone(mobile, SensitiveDefaultLengthEnum.MOBILE.getBegin(), SensitiveDefaultLengthEnum.MOBILE.getEnd());
+        return SensitiveInfoUtils.mobilePhone(mobile, replace,
+                SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(), SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
     }
 
 }

@@ -1,6 +1,8 @@
 package com.yhq.sensitive.util;
 
-import com.yhq.sensitive.enums.SensitiveDefaultLengthEnum;
+import com.yhq.sensitive.constant.SensitiveReplaceChars;
+import com.yhq.sensitive.enums.SensitiveStrategyLength;
+import com.yhq.sensitive.enums.SensitiveStrategyPattern;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -8,90 +10,265 @@ import org.apache.commons.lang.StringUtils;
  * @author yhq
  * @date 2021年9月6日 14点02分
  **/
-public class SensitiveInfoUtils {
+public abstract class SensitiveInfoUtils {
+    /** 默认替换字符 */
+    private static final String REPLACE_CHAR_DEFAULT = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT;
 
     /**
-     * [中文姓名] 只显示第一(showLength)个汉字，其他隐藏为2个星号<例子：李**>
+     * [中文姓名] 根据显示长度策略脱敏，只显示指定长度的前几个汉字，其他的替换位特定字符<例子：李**>
+     * @param fullName 完整中文姓名
+     * @param replaceChar 脱敏替换字符
+     * @param length 正常显示的前几个字符个数
+     * @return 脱敏后的数据
      */
-    public static String chineseName(final String fullName, int showLength) {
+    public static String chineseName(final String fullName, String replaceChar, int length) {
         if (StringUtils.isBlank(fullName)) {
             return "";
         }
-        if(StringUtils.length(fullName) <= showLength){
+        if(StringUtils.length(fullName) <= length){
             return fullName;
         }
-        final String name = StringUtils.left(fullName, showLength);
-        return StringUtils.rightPad(name, StringUtils.length(fullName), "*");
+        final String name = StringUtils.left(fullName, length);
+        return StringUtils.rightPad(name, StringUtils.length(fullName), replaceChar);
     }
 
     /**
-     * 密码脱敏，只显示 6 个  *
-     * @param password 密码
+     * [中文姓名] 根据正则策略脱敏
+     * @param fullName 完整中文姓名
+     * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String password(final String password, int length) {
+    public static String chineseName(final String fullName, SensitiveStrategyPattern pattern) {
+        return patternReplace(fullName, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [中文姓名] 默认使用显示长度策略脱敏
+     * @param fullName 完整中文姓名
+     * @return 脱敏后的数据
+     */
+    public static String chineseName(final String fullName) {
+        return chineseName(fullName, REPLACE_CHAR_DEFAULT, SensitiveStrategyLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());
+    }
+
+    /**
+     * [密码] 根据显示长度策略脱敏，将密码替换为指定长度的特定字符
+     * @param password 密码
+     * @param replaceChar 替换字符
+     * @param length 替换后的长度
+     * @return 脱敏后的数据
+     */
+    public static String password(final String password, String replaceChar, int length) {
         if (StringUtils.isBlank(password)) {
             return "";
         }
-        return getSensitiveInfo(length);
+        return getSensitiveInfo(length, replaceChar);
     }
 
     /**
-     * [身份证号] 显示最后四位，其他隐藏。共计18位或者15位。<例子：*************5762>
+     * [密码] 根据显示长度策略脱敏，将密码替换指定长度的字符
+     * @param password 密码
+     * @param length 替换后的长度
+     * @return 脱敏后的数据
      */
-    public static String idCardNum(final String idCard, int begin, int end) {
+    public static String password(final String password, int length) {
+        return password(password, REPLACE_CHAR_DEFAULT, length);
+    }
+
+    /**
+     * [密码] 根据正则策略脱敏
+     * @param password 密码
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String password(final String password, SensitiveStrategyPattern pattern) {
+        return patternReplace(password, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [密码] 默认使用显示长度策略脱敏
+     * @param password 密码
+     * @return 脱敏后的数据
+     */
+    public static String password(final String password) {
+        return password(password, SensitiveStrategyLength.PASSWORD_REPLACE_SIX.getBegin());
+    }
+
+    /**
+     * [身份证号] 根据显示长度脱敏，显示最后的指定位数，其他替换为特定字符<例子：*************5762>
+     * @param idCard 身份证号
+     * @param replaceChar 替换字符
+     * @param length 最后显示的指定位数
+     * @return 脱敏后的数据
+     */
+    public static String idCard(final String idCard, String replaceChar, int length) {
         if (StringUtils.isBlank(idCard)) {
             return "";
         }
-        return StringUtils.left(idCard, begin).concat(StringUtils.removeStart(
-                StringUtils.leftPad(StringUtils.right(idCard, end), StringUtils.length(idCard), "*"),
-                "******"));
+        return StringUtils.leftPad(StringUtils.right(idCard, length), StringUtils.length(idCard), replaceChar);
     }
 
     /**
-     * [固定电话] 后四位，其他隐藏<例子：****1234>
+     * [身份证号] 根据显示长度策略脱敏，显示最后的指定位数
+     * @param idCard 身份证号
+     * @param length 最后显示的指定位数
+     * @return 脱敏后的数据
      */
-    public static String fixedPhone(final String num, int end) {
-        if (StringUtils.isBlank(num)) {
+    public static String idCard(final String idCard, int length) {
+        return idCard(idCard, REPLACE_CHAR_DEFAULT, length);
+    }
+
+    /**
+     * [身份证号] 根据正则策略脱敏
+     * @param idCard 身份证号
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String idCard(final String idCard, SensitiveStrategyPattern pattern) {
+        return patternReplace(idCard, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [身份证号] 默认使用显示长度策略脱敏
+     * @param idCard 身份证号
+     * @return 脱敏后的数据
+     */
+    public static String idCard(final String idCard) {
+        return idCard(idCard, SensitiveStrategyLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
+    }
+
+    /**
+     * [固定电话] 根据显示长度策略脱敏，显示最后指定长度的位数，其他位使用特定字符替换<例子：****1234>
+     * @param phone 电话号码
+     * @param replaceChar 替换字符
+     * @param length 最后显示位数的长度
+     * @return 脱敏后的数据
+     */
+    public static String fixedPhone(final String phone, String replaceChar, int length) {
+        if (StringUtils.isBlank(phone)) {
             return "";
         }
-        return StringUtils.leftPad(StringUtils.right(num, end), StringUtils.length(num), "*");
+        return StringUtils.leftPad(StringUtils.right(phone, length), StringUtils.length(phone), replaceChar);
     }
 
     /**
-     * [手机号码] 前三位，后四位，其他隐藏<例子:138****1234>
+     * [固定电话] 根据显示长度策略脱敏，显示最后指定长度的位数
+     * @param phone 电话号码
+     * @param length 最后显示位数的长度
+     * @return 脱敏后的数据
      */
-    public static String mobilePhone(final String mobile, int begin, int end) {
+    public static String fixedPhone(final String phone, int length) {
+        return fixedPhone(phone, REPLACE_CHAR_DEFAULT, length);
+    }
+
+    /**
+     * [固定电话] 根据正则策略脱敏
+     * @param phone 电话号码
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String fixedPhone(final String phone, SensitiveStrategyPattern pattern) {
+        return patternReplace(phone, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [固定电话] 默认根据显示长度策略脱敏
+     * @param phone 电话号码
+     * @return 脱敏后的数据
+     */
+    public static String fixedPhone(final String phone) {
+        return fixedPhone(phone, SensitiveStrategyLength.FIXED_PHONE_DISPLAY_LAST_FOUR.getEnd());
+    }
+
+
+    /**
+     * [手机号码] 根据显示长度策略脱敏，只显示前几位及后几位，其他替换为特定字符<例子:138****1234>
+     * @param mobile 手机号码
+     * @param replaceChar 替换字符
+     * @param begin 前面要显示的位数
+     * @param end 最后要显示的位数
+     * @return 脱敏后的数据
+     */
+    public static String mobilePhone(final String mobile, String replaceChar, int begin, int end) {
         if (StringUtils.isBlank(mobile)) {
             return "";
         }
-        /*return StringUtils.left(mobile, begin).concat(StringUtils
-                .removeStart(StringUtils.leftPad(StringUtils.right(mobile, end), StringUtils.length(mobile), "*"),
-                        "***"));*/
         return StringUtils.left(mobile, begin).concat(
-                StringUtils.leftPad(StringUtils.right(mobile, end), StringUtils.length(mobile) - begin, "*"));
-
+                StringUtils.leftPad(StringUtils.right(mobile, end), StringUtils.length(mobile) - begin, replaceChar));
     }
 
     /**
-     * [地址] 只显示到地区，不显示详细地址；我们要对个人信息增强保护<例子：北京市海淀区****>
-     *
-     * @param sensitiveBeginSize 敏感信息的长度
+     * [手机号码] 根据显示长度策略脱敏，只显示前几位及后几位
+     * @param mobile 手机号
+     * @param begin 前面要显示的位数
+     * @param end 最后要显示的位数
+     * @return 脱敏后的数据
      */
-    public static String address(final String address, final int sensitiveBeginSize) {
+    public static String mobilePhone(final String mobile, int begin, int end) {
+        return mobilePhone(mobile, REPLACE_CHAR_DEFAULT, begin, end);
+    }
+
+    /**
+     * [手机号码] 根据正则策略脱敏
+     * @param mobile 手机号
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String mobilePhone(final String mobile, SensitiveStrategyPattern pattern) {
+        return patternReplace(mobile, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [手机号码] 默认根据显示长度策略脱敏
+     * @param mobile 手机号
+     * @return 脱敏后的数据
+     */
+    public static String mobilePhone(final String mobile) {
+        return mobilePhone(mobile, SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(), SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
+    }
+
+    /**
+     * [地址] 根据显示长度策略脱敏，对地址结尾信息进行脱敏<例子：北京市海淀区****>
+     * @param address 完整地址
+     * @param replaceChar 替换字符
+     * @param end 结尾需要脱敏的位数
+     * @return 脱敏后的数据
+     */
+    public static String address(final String address, String replaceChar, final int end) {
         if (StringUtils.isBlank(address)) {
             return "";
         }
         final int length = StringUtils.length(address);
-
-        return StringUtils.rightPad(StringUtils.left(address, length - sensitiveBeginSize), length, "*");
-
+        return StringUtils.rightPad(StringUtils.left(address, length - end), length, replaceChar);
     }
 
     /**
-     * [电子邮箱] 邮箱前缀仅显示第一个字母，前缀其他隐藏，用星号代替，@及后面的地址显示<例子:g**@163.com>
+     * [地址] 根据正则策略脱敏
+     * @param address 完整地址
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
      */
-    public static String email(final String email, int begin) {
+    public static String address(final String address, SensitiveStrategyPattern pattern) {
+        return patternReplace(address, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [地址] 默认使用长度策略脱敏
+     * @param address 完整地址
+     * @return 脱敏后的数据
+     */
+    public static String address(final String address) {
+        return address(address, REPLACE_CHAR_DEFAULT, SensitiveStrategyLength.ADDRESS_HIDE_LAST_SIX.getBegin());
+    }
+
+    /**
+     * [电子邮箱] 根据显示长度策略脱敏，只显示前几个字符，其他字符用特定字符替换，@及后面的地址正常显示<例子:g**@163.com>
+     * @param email 邮箱
+     * @param replaceChar 替换字符
+     * @param begin 前面要显示的字符个数
+     * @return 脱敏后的数据
+     */
+    public static String email(final String email, String replaceChar, int begin) {
         if (StringUtils.isBlank(email)) {
             return "";
         }
@@ -99,58 +276,112 @@ public class SensitiveInfoUtils {
         if (index <= begin) {
             return email;
         } else {
-            return StringUtils.rightPad(StringUtils.left(email, begin), index, "*")
+            return StringUtils.rightPad(StringUtils.left(email, begin), index, replaceChar)
                     .concat(StringUtils.mid(email, index, StringUtils.length(email)));
         }
     }
 
     /**
-     * [银行卡号] 前六位，后四位，其他用星号隐藏每位1个星号<例子:6222600**********1234>
+     * [电子邮箱] 根据显示长度策略脱敏，只显示前几个字符
+     * @param email 邮箱
+     * @param begin 前面要显示的字符个数
+     * @return 脱敏后的数据
      */
-    public static String bankCard(final String cardNum, int begin , int end) {
-        if (StringUtils.isBlank(cardNum)) {
+    public static String email(final String email, int begin) {
+        return email(email, REPLACE_CHAR_DEFAULT, begin);
+    }
+
+    /**
+     * [电子邮箱] 根据正则策略脱敏
+     * @param email 邮箱
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String email(final String email, SensitiveStrategyPattern pattern) {
+        return patternReplace(email, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [电子邮箱] 默认使用长度显示策略脱敏
+     * @param email 邮箱
+     * @return 脱敏后的数据
+     */
+    public static String email(final String email) {
+        return email(email, SensitiveStrategyLength.EMAIL_DISPLAY_FIRST.getBegin());
+    }
+
+    /**
+     * [银行卡号] 根据显示长度策略脱敏，只显示前几位及后几位，其他位用特定字符替换<例子:6222600**********1234>
+     * @param bankCard 银行卡号
+     * @param replaceChar 替换字符
+     * @param begin 显示的前几位
+     * @param end 显示的后几位
+     * @return 脱敏后的数据
+     */
+    public static String bankCard(final String bankCard, String replaceChar, int begin , int end) {
+        if (StringUtils.isBlank(bankCard)) {
             return "";
         }
-        if(getSensitive(cardNum,begin,end)){
-            begin = SensitiveDefaultLengthEnum.BANKCARD.getBegin();
-            end = SensitiveDefaultLengthEnum.BANKCARD.getEnd();
+        if(needSensitive(bankCard,begin,end)){
+            begin = SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin();
+            end = SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd();
         }
-        return StringUtils.left(cardNum, begin).concat(StringUtils.removeStart(
-                StringUtils.leftPad(StringUtils.right(cardNum, end), StringUtils.length(cardNum), "*"),
-                getSensitiveInfo(begin)));
+        return StringUtils.left(bankCard, begin).concat(StringUtils.removeStart(
+                StringUtils.leftPad(StringUtils.right(bankCard, end), StringUtils.length(bankCard), replaceChar),
+                getSensitiveInfo(begin,replaceChar)));
+    }
+
+    /**
+     * [银行卡号] 根据正则策略脱敏
+     * @param bankCard 银行卡号
+     * @param pattern 正则定义
+     * @return 脱敏后的数据
+     */
+    public static String bankCard(final String bankCard, SensitiveStrategyPattern pattern) {
+        return patternReplace(bankCard, pattern.getPattern(), pattern.getReplaceChar());
+    }
+
+    /**
+     * [银行卡号] 默认使用长度策略脱敏
+     * @param bankCard 银行卡号
+     * @return 脱敏后的数据
+     */
+    public static String bankCard(final String bankCard) {
+        return bankCard(bankCard, REPLACE_CHAR_DEFAULT,
+                SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
     }
 
     /**
      * 根据正则脱敏
-     * @param context 内容
-     * @param pattern 正则
-     * @param replaceChar 替换后的字符
+     * @param content 内容
+     * @param pattern 正则定义
+     * @param replaceChar 替换字符
      * @return 脱敏后的数据
      */
-    public static String patternReplace(final String context,String pattern, String replaceChar) {
-        return context.replaceAll(pattern, replaceChar);
+    public static String patternReplace(final String content,String pattern, String replaceChar) {
+        return content.replaceAll(pattern, replaceChar);
     }
 
     /**
      * 获取总的长度
      * @param begin 开始显示的长度
      * @param end 结尾显示的长度
-     * @return 总要显示的长度
+     * @return 显示的总长度
      */
     private static int getAllLength(int begin ,int end){
         return begin + end;
     }
 
     /**
-     * 判断前端传来的长度，是否比 当前字符的长度大
-     * @param address 地址
-     * @param sensitiveBeginSize 开始长度
-     * @param sensitiveEndSize  结尾长度
+     * 是否需要脱敏：判断要显示的长度是否比总长度要大
+     * @param content 内容
+     * @param begin 开始长度
+     * @param end  结尾长度
      * @return
      */
-    private static boolean getSensitive(final String address, final int sensitiveBeginSize, final int sensitiveEndSize){
-        int showLength = getAllLength(sensitiveBeginSize ,sensitiveEndSize);
-        int length = StringUtils.length(address);
+    private static boolean needSensitive(final String content, final int begin, final int end){
+        int showLength = getAllLength(begin ,end);
+        int length = StringUtils.length(content);
         if(showLength> length){
             return false;
         }
@@ -158,12 +389,12 @@ public class SensitiveInfoUtils {
     }
 
     /**
-     * 显示多少个 *
+     * 返回指定长度的特定字符
      * @param length 显示的长度
-     * @return 返回组装后的长度
+     * @return 特定长度的指定字符组成的字符串
      */
-    private static String getSensitiveInfo(int length){
-        return StringUtils.repeat("*", length);
+    private static String getSensitiveInfo(int length, String replaceChar){
+        return StringUtils.repeat(replaceChar, length);
     }
 
 }

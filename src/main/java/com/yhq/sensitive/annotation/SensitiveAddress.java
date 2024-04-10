@@ -1,6 +1,7 @@
 package com.yhq.sensitive.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.yhq.sensitive.constant.SensitiveReplaceChars;
 
 import java.lang.annotation.*;
 
@@ -12,7 +13,11 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitiveAddress.class, pattern = "(.{5}).+(.{4})",replaceChar = "$1*****$2")
+@SensitiveInfo(
+        strategy = com.yhq.sensitive.strategy.SensitiveAddress.class,
+        pattern = "(.{5}).+(.{4})",
+        replaceChar = SensitiveReplaceChars.ASTERISK_PATTERN_ADDRESS
+)
 @JacksonAnnotationsInside
 public @interface SensitiveAddress {
 

@@ -3,7 +3,7 @@ package com.yhq.sensitive.annotation;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yhq.sensitive.core.SensitiveInfoSerialize;
-import com.yhq.sensitive.strategy.DefaultSensitiveStrategy;
+import com.yhq.sensitive.strategy.SensitiveDefault;
 import com.yhq.sensitive.strategy.IStrategy;
 
 import java.lang.annotation.Inherited;
@@ -25,7 +25,7 @@ public @interface SensitiveInfo {
      * 脱敏策略
      * @return
      */
-    Class<? extends IStrategy> strategy() default DefaultSensitiveStrategy.class;
+    Class<? extends IStrategy> strategy() default SensitiveDefault.class;
 
     /**
      * 输入格式，使用正则表达式, 优先级大于value

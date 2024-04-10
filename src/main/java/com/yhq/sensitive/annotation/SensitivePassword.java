@@ -1,6 +1,7 @@
 package com.yhq.sensitive.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.yhq.sensitive.constant.SensitiveReplaceChars;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -14,7 +15,11 @@ import java.lang.annotation.Target;
  **/
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@SensitiveInfo(strategy = com.yhq.sensitive.strategy.SensitivePassword.class,pattern = "(?<=).",replaceChar = "*")
+@SensitiveInfo(
+        strategy = com.yhq.sensitive.strategy.SensitivePassword.class,
+        pattern = "(?<=).",
+        replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
+)
 @JacksonAnnotationsInside
 public @interface SensitivePassword {
 

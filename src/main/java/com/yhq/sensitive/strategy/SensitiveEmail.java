@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveDefaultLengthEnum;
+import com.yhq.sensitive.enums.SensitiveStrategyLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -11,11 +11,11 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveEmail implements IStrategy {
 
     @Override
-    public String desensitization(String email,int begin,int end) {
-        if(begin != SensitiveDefaultLengthEnum.EMAIL.getBegin() && begin !=0 ){
+    public String desensitization(String email,String replace,int begin,int end) {
+        if(begin != SensitiveStrategyLength.EMAIL_DISPLAY_FIRST.getBegin() && begin !=0 ){
             return SensitiveInfoUtils.email(email,begin);
         }
-        return SensitiveInfoUtils.email(email, SensitiveDefaultLengthEnum.EMAIL.getBegin());
+        return SensitiveInfoUtils.email(email, SensitiveStrategyLength.EMAIL_DISPLAY_FIRST.getBegin());
     }
 
 }

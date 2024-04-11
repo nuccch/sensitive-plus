@@ -6,7 +6,7 @@ import com.yhq.sensitive.constant.SensitiveReplaceChars;
 import java.lang.annotation.*;
 
 /**
- * 中文姓名脱敏
+ * 使用显示长度规则对手机号脱敏
  * @author yhq
  * @date 2021年9月7日 08点51分
  **/
@@ -14,11 +14,12 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @SensitiveInfo(
-        strategy = com.yhq.sensitive.strategy.SensitiveChineseName.class,
-        pattern = "(?<=.{1}).",
+        strategy = com.yhq.sensitive.strategy.SensitiveMobile.class,
+        begin = 3, /** 只显示前3位及后4位 */
+        end = 4,
         replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
 )
 @JacksonAnnotationsInside
-public @interface SensitiveChineseName {
+public @interface SensitiveLengthMobile {
 
 }

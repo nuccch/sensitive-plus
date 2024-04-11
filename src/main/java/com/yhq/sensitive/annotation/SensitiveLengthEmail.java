@@ -6,7 +6,7 @@ import com.yhq.sensitive.constant.SensitiveReplaceChars;
 import java.lang.annotation.*;
 
 /**
- * 银行卡号脱敏
+ * 使用显示长度规则对邮箱脱敏
  * @author yhq
  * @date 2021年9月7日 08点51分
  **/
@@ -14,11 +14,12 @@ import java.lang.annotation.*;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @SensitiveInfo(
-        strategy = com.yhq.sensitive.strategy.SensitiveChineseName.class,
-        pattern = "(?<=\\w{4})\\w(?=\\w{4})",
-        replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
+        strategy = com.yhq.sensitive.strategy.SensitiveEmail.class,
+        begin = 1, /** 只显示第1位 */
+        end = 0,
+        replaceChar = SensitiveReplaceChars.ASTERISK_PATTERN_EMAIL
 )
 @JacksonAnnotationsInside
-public @interface SensitiveBankCard {
+public @interface SensitiveLengthEmail {
 
 }

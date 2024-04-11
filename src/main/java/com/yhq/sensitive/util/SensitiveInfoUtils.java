@@ -1,8 +1,8 @@
 package com.yhq.sensitive.util;
 
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
-import com.yhq.sensitive.enums.SensitiveStrategyLength;
-import com.yhq.sensitive.enums.SensitiveStrategyPattern;
+import com.yhq.sensitive.enums.SensitiveLength;
+import com.yhq.sensitive.enums.SensitivePattern;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -38,7 +38,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String chineseName(final String fullName, SensitiveStrategyPattern pattern) {
+    public static String chineseName(final String fullName, SensitivePattern pattern) {
         return patternReplace(fullName, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -48,7 +48,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String chineseName(final String fullName) {
-        return chineseName(fullName, REPLACE_CHAR_DEFAULT, SensitiveStrategyLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());
+        return chineseName(fullName, REPLACE_CHAR_DEFAULT, SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());
     }
 
     /**
@@ -81,7 +81,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String password(final String password, SensitiveStrategyPattern pattern) {
+    public static String password(final String password, SensitivePattern pattern) {
         return patternReplace(password, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -91,7 +91,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String password(final String password) {
-        return password(password, SensitiveStrategyLength.PASSWORD_REPLACE_SIX.getBegin());
+        return password(password, SensitiveLength.PASSWORD_REPLACE_SIX.getBegin());
     }
 
     /**
@@ -124,7 +124,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String idCard(final String idCard, SensitiveStrategyPattern pattern) {
+    public static String idCard(final String idCard, SensitivePattern pattern) {
         return patternReplace(idCard, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -134,7 +134,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String idCard(final String idCard) {
-        return idCard(idCard, SensitiveStrategyLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
+        return idCard(idCard, SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
     }
 
     /**
@@ -167,7 +167,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String fixedPhone(final String phone, SensitiveStrategyPattern pattern) {
+    public static String fixedPhone(final String phone, SensitivePattern pattern) {
         return patternReplace(phone, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -177,7 +177,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String fixedPhone(final String phone) {
-        return fixedPhone(phone, SensitiveStrategyLength.FIXED_PHONE_DISPLAY_LAST_FOUR.getEnd());
+        return fixedPhone(phone, SensitiveLength.FIXED_PHONE_DISPLAY_LAST_FOUR.getEnd());
     }
 
 
@@ -214,7 +214,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String mobilePhone(final String mobile, SensitiveStrategyPattern pattern) {
+    public static String mobilePhone(final String mobile, SensitivePattern pattern) {
         return patternReplace(mobile, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -224,7 +224,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String mobilePhone(final String mobile) {
-        return mobilePhone(mobile, SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(), SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
+        return mobilePhone(mobile, SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(), SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
     }
 
     /**
@@ -248,7 +248,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String address(final String address, SensitiveStrategyPattern pattern) {
+    public static String address(final String address, SensitivePattern pattern) {
         return patternReplace(address, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -258,7 +258,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String address(final String address) {
-        return address(address, REPLACE_CHAR_DEFAULT, SensitiveStrategyLength.ADDRESS_HIDE_LAST_SIX.getBegin());
+        return address(address, REPLACE_CHAR_DEFAULT, SensitiveLength.ADDRESS_HIDE_LAST_SIX.getEnd());
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String email(final String email, SensitiveStrategyPattern pattern) {
+    public static String email(final String email, SensitivePattern pattern) {
         return patternReplace(email, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -307,7 +307,7 @@ public abstract class SensitiveInfoUtils {
      * @return 脱敏后的数据
      */
     public static String email(final String email) {
-        return email(email, SensitiveStrategyLength.EMAIL_DISPLAY_FIRST.getBegin());
+        return email(email, SensitiveLength.EMAIL_DISPLAY_FIRST.getBegin());
     }
 
     /**
@@ -323,8 +323,8 @@ public abstract class SensitiveInfoUtils {
             return "";
         }
         if(needSensitive(bankCard,begin,end)){
-            begin = SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin();
-            end = SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd();
+            begin = SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin();
+            end = SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd();
         }
         return StringUtils.left(bankCard, begin).concat(StringUtils.removeStart(
                 StringUtils.leftPad(StringUtils.right(bankCard, end), StringUtils.length(bankCard), replaceChar),
@@ -337,7 +337,7 @@ public abstract class SensitiveInfoUtils {
      * @param pattern 正则定义
      * @return 脱敏后的数据
      */
-    public static String bankCard(final String bankCard, SensitiveStrategyPattern pattern) {
+    public static String bankCard(final String bankCard, SensitivePattern pattern) {
         return patternReplace(bankCard, pattern.getPattern(), pattern.getReplaceChar());
     }
 
@@ -348,7 +348,7 @@ public abstract class SensitiveInfoUtils {
      */
     public static String bankCard(final String bankCard) {
         return bankCard(bankCard, REPLACE_CHAR_DEFAULT,
-                SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
+                SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
     }
 
     /**

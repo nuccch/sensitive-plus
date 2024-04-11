@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveStrategyLength;
+import com.yhq.sensitive.enums.SensitiveLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -12,10 +12,10 @@ public class SensitiveChineseName implements IStrategy {
 
     @Override
     public String desensitization(String source,String replace,int begin,int end) {
-        if(begin != SensitiveStrategyLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin() && begin !=0){
+        if(begin != SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin() && begin !=0){
             return SensitiveInfoUtils.chineseName(source, replace, begin);
         }
-        return SensitiveInfoUtils.chineseName(source, replace, SensitiveStrategyLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());
+        return SensitiveInfoUtils.chineseName(source, replace, SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());
     }
 
 }

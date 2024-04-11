@@ -19,7 +19,7 @@ public class UserEntity implements Serializable {
     /**
      * 中文姓名--正则
      */
-    @SensitiveChineseName
+    @SensitivePatternChineseName
     private String userNamePattern;
 
     /**
@@ -31,7 +31,7 @@ public class UserEntity implements Serializable {
     /**
      * 密码--正则
      */
-    @SensitivePassword
+    @SensitivePatternPassword
     private String passwordPattern;
 
     /**
@@ -43,7 +43,7 @@ public class UserEntity implements Serializable {
     /**
      * 身份证--正则
      */
-    @SensitiveIdCard
+    @SensitivePatternIdCard
     private String idCardPattern;
 
     /**
@@ -55,7 +55,7 @@ public class UserEntity implements Serializable {
     /**
      * 固话--正则
      */
-    @SensitiveFixedPhone
+    @SensitivePatternFixedPhone
     private String fixedPhonePattern;
 
     /**
@@ -67,7 +67,7 @@ public class UserEntity implements Serializable {
     /**
      * 手机--正则
      */
-    @SensitiveMobile
+    @SensitivePatternMobile
     private String mobilePattern;
 
     /**
@@ -79,7 +79,7 @@ public class UserEntity implements Serializable {
     /**
      * 地址--正则
      */
-    @SensitiveAddress
+    @SensitivePatternAddress
     private String addressPattern;
 
     /**
@@ -91,7 +91,7 @@ public class UserEntity implements Serializable {
     /**
      * 邮箱--正则
      */
-    @SensitiveEmail
+    @SensitivePatternEmail
     private String emailPattern;
 
     /**
@@ -103,7 +103,7 @@ public class UserEntity implements Serializable {
     /**
      * 银行卡号--正则
      */
-    @SensitiveBankCard
+    @SensitivePatternBankCard
     private String bankCardPattern;
 
     /**

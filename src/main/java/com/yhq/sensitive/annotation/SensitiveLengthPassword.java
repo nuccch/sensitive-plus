@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 密码脱敏
+ * 使用显示长度规则密码脱敏
  * @author yhq
  * @date 2021年9月7日 08点51分
  **/
@@ -17,10 +17,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @SensitiveInfo(
         strategy = com.yhq.sensitive.strategy.SensitivePassword.class,
-        pattern = "(?<=).",
+        begin = 6, /** 将所有字符替换为6个特定字符 */
+        end = 0,
         replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
 )
 @JacksonAnnotationsInside
-public @interface SensitivePassword {
+public @interface SensitiveLengthPassword {
 
 }

@@ -3,11 +3,11 @@ package com.yhq.sensitive.enums;
 import lombok.Getter;
 
 /**
- * 显示长度脱敏策略
+ * 显示长度
  * @author yhq
  * @date 2021年9月6日 13点33分
  **/
-public enum SensitiveStrategyLength {
+public enum SensitiveLength {
 
     /**
      * 中文姓名，只显示第1个字符
@@ -55,7 +55,7 @@ public enum SensitiveStrategyLength {
     DEFAULT(6,0),
     ;
 
-    SensitiveStrategyLength(int begin, int end){
+    SensitiveLength(int begin, int end){
         this.begin = begin;
         this.end = end;
     };

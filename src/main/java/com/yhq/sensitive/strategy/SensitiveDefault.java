@@ -1,6 +1,6 @@
 package com.yhq.sensitive.strategy;
 
-import com.yhq.sensitive.enums.SensitiveStrategyLength;
+import com.yhq.sensitive.enums.SensitiveLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
@@ -12,6 +12,6 @@ public class SensitiveDefault implements IStrategy{
 
     @Override
     public String desensitization(String source, String replace, int begin, int end) {
-        return SensitiveInfoUtils.password(source, replace, SensitiveStrategyLength.DEFAULT.getBegin());
+        return SensitiveInfoUtils.password(source, replace, SensitiveLength.DEFAULT.getBegin());
     }
 }

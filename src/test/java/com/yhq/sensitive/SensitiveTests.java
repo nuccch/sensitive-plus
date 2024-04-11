@@ -2,8 +2,8 @@ package com.yhq.sensitive;
 
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
 import com.yhq.sensitive.core.JsonMapper;
-import com.yhq.sensitive.enums.SensitiveStrategyLength;
-import com.yhq.sensitive.enums.SensitiveStrategyPattern;
+import com.yhq.sensitive.enums.SensitiveLength;
+import com.yhq.sensitive.enums.SensitivePattern;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 import com.yhq.sensitive.util.SensitiveJsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class SensitiveTests {
 	@Test
 	public void testSensitiveBankCardByLength() {
 		String sensitive = SensitiveInfoUtils.bankCard(bankCard, SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT,
-				SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveStrategyLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
+				SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin(), SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd());
 		printSensitive(bankCard, sensitive);
 	}
 
@@ -67,7 +67,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveBankCardByPattern() {
-		String sensitive = SensitiveInfoUtils.bankCard(bankCard, SensitiveStrategyPattern.BANKCARD_DISPLAY_FIRST_FIX_LAST_FOUR);
+		String sensitive = SensitiveInfoUtils.bankCard(bankCard, SensitivePattern.BANKCARD_DISPLAY_FIRST_FIX_LAST_FOUR);
 		printSensitive(bankCard, sensitive);
 	}
 
@@ -92,7 +92,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveChineseNameByPattern() {
-		log.info(SensitiveInfoUtils.chineseName(chineseName, SensitiveStrategyPattern.CHINESE_NAME_DISPLAY_FIRST_ONE));
+		log.info(SensitiveInfoUtils.chineseName(chineseName, SensitivePattern.CHINESE_NAME_DISPLAY_FIRST_ONE));
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitivePasswordByPattern() {
-		String sensitive = SensitiveInfoUtils.password(password, SensitiveStrategyPattern.PASSWORD_REPLACE_ALL);
+		String sensitive = SensitiveInfoUtils.password(password, SensitivePattern.PASSWORD_REPLACE_ALL);
 		printSensitive(password, sensitive);
 	}
 
@@ -135,7 +135,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveIdCardNumByLength() {
-		String sensitive = SensitiveInfoUtils.idCard(idCard, SensitiveStrategyLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
+		String sensitive = SensitiveInfoUtils.idCard(idCard, SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
 		printSensitive(idCard, sensitive);
 	}
 
@@ -144,7 +144,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveIdCardByPattern() {
-		String sensitive = SensitiveInfoUtils.idCard(idCard, SensitiveStrategyPattern.ID_CARD_DISPLAY_LAST_FOUR);
+		String sensitive = SensitiveInfoUtils.idCard(idCard, SensitivePattern.ID_CARD_DISPLAY_LAST_FOUR);
 		printSensitive(idCard, sensitive);
 	}
 
@@ -162,7 +162,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveFixedPhoneByLength() {
-		String sensitive = SensitiveInfoUtils.fixedPhone(fixedPhone, SensitiveStrategyLength.FIXED_PHONE_DISPLAY_LAST_FOUR.getEnd());
+		String sensitive = SensitiveInfoUtils.fixedPhone(fixedPhone, SensitiveLength.FIXED_PHONE_DISPLAY_LAST_FOUR.getEnd());
 		printSensitive(fixedPhone, sensitive);
 	}
 
@@ -171,7 +171,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveFixedPhoneByPattern() {
-		String sensitive = SensitiveInfoUtils.fixedPhone(fixedPhone, SensitiveStrategyPattern.FIXED_PHONE_DISPLAY_LAST_FOUR);
+		String sensitive = SensitiveInfoUtils.fixedPhone(fixedPhone, SensitivePattern.FIXED_PHONE_DISPLAY_LAST_FOUR);
 		printSensitive(fixedPhone, sensitive);
 	}
 
@@ -189,8 +189,8 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveMobilePhoneByLength() {
-		String sensitive = SensitiveInfoUtils.mobilePhone(mobile, SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(),
-				SensitiveStrategyLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
+		String sensitive = SensitiveInfoUtils.mobilePhone(mobile, SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin(),
+				SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd());
 		printSensitive(mobile, sensitive);
 	}
 
@@ -199,7 +199,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveMobilePhoneByPattern() {
-		String sensitive = SensitiveInfoUtils.mobilePhone(mobile, SensitiveStrategyPattern.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR);
+		String sensitive = SensitiveInfoUtils.mobilePhone(mobile, SensitivePattern.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR);
 		printSensitive(mobile, sensitive);
 	}
 
@@ -218,7 +218,7 @@ public class SensitiveTests {
 	@Test
 	public void testSensitiveAddressByLength() {
 		String sensitive = SensitiveInfoUtils.address(address, SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT,
-				SensitiveStrategyLength.ADDRESS_HIDE_LAST_SIX.getEnd());
+				SensitiveLength.ADDRESS_HIDE_LAST_SIX.getEnd());
 		printSensitive(address, sensitive);
 	}
 
@@ -227,7 +227,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveAddressByPattern() {
-		String sensitive = SensitiveInfoUtils.address(address, SensitiveStrategyPattern.ADDRESS_DISPLAY_FIRST_FIVE_LAST_FOUR);
+		String sensitive = SensitiveInfoUtils.address(address, SensitivePattern.ADDRESS_DISPLAY_FIRST_FIVE_LAST_FOUR);
 		printSensitive(address, sensitive);
 	}
 
@@ -245,7 +245,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveEmailByLength() {
-		String sensitive = SensitiveInfoUtils.email(email, SensitiveStrategyLength.EMAIL_DISPLAY_FIRST.getBegin());
+		String sensitive = SensitiveInfoUtils.email(email, SensitiveLength.EMAIL_DISPLAY_FIRST.getBegin());
 		printSensitive(email, sensitive);
 	}
 
@@ -254,7 +254,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testSensitiveEmailByPattern() {
-		String sensitive = SensitiveInfoUtils.email(email, SensitiveStrategyPattern.EMAIL_HIDE_LAST_THREE);
+		String sensitive = SensitiveInfoUtils.email(email, SensitivePattern.EMAIL_HIDE_LAST_THREE);
 		printSensitive(email, sensitive);
 	}
 

@@ -58,13 +58,12 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements
 
     @Override
     public void serialize(String value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        /// 默认使用正则脱敏、 begin、end 不为空，则策略脱敏
+        /// 默认使用正则规则脱敏、 begin、end不为空时使用显示长度规则脱敏
         if(begin == 0 && end == 0){
             gen.writeString(strategy.desensitizationByPattern(value,pattern,replaceChar));
         }else{
             gen.writeString(strategy.desensitization(value,replaceChar,begin,end));
         }
-
     }
 
     @Override
@@ -79,7 +78,7 @@ public class SensitiveInfoSerialize extends JsonSerializer<String> implements
                 }
                 if (sensitiveInfo != null) {
                     Class<? extends IStrategy> clazz = sensitiveInfo.strategy();
-                    // 如果能得到注解，就将注解的 value 传入 SensitiveInfoSerialize
+                    // 如果能得到注解，就将注解的value传入SensitiveInfoSerialize
                     return new SensitiveInfoSerialize(clazz.getDeclaredConstructor().newInstance(),sensitiveInfo.pattern(),
                             sensitiveInfo.replaceChar(),sensitiveInfo.begin(),sensitiveInfo.end());
                 }

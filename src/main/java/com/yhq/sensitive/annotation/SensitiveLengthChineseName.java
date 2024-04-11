@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @SensitiveInfo(
         strategy = com.yhq.sensitive.strategy.SensitiveChineseName.class,
-        begin = 1, /** 只显示第1个字符 */
+        begin = 1, /** 只显示第1位 */
         end = 0,
         replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
 )

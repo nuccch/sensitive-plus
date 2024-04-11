@@ -1,24 +1,18 @@
 package com.yhq.sensitive.annotation;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yhq.sensitive.core.SensitiveInfoSerialize;
-import com.yhq.sensitive.strategy.SensitiveDefault;
 import com.yhq.sensitive.strategy.IStrategy;
+import com.yhq.sensitive.strategy.SensitiveDefault;
 
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.*;
 
 /**
  * 脱敏信息
  * @author yhq
  * @date 2021年9月6日 09点57分
  */
-@Retention(RetentionPolicy.RUNTIME)
-@JacksonAnnotationsInside
-@JsonSerialize(using = SensitiveInfoSerialize.class)
 @Inherited
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
 public @interface SensitiveInfo {
 
     /**

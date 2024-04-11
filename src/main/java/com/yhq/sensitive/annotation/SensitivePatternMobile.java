@@ -1,6 +1,5 @@
 package com.yhq.sensitive.annotation;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.yhq.sensitive.constant.SensitiveRegex;
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
 
@@ -19,7 +18,6 @@ import java.lang.annotation.*;
         pattern = SensitiveRegex.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR,
         replaceChar = SensitiveReplaceChars.ASTERISK_SIMPLE_DEFAULT
 )
-@JacksonAnnotationsInside
 public @interface SensitivePatternMobile {
 
 }

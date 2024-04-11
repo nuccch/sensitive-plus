@@ -4,7 +4,7 @@ import com.yhq.sensitive.enums.SensitiveLength;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 
 /**
- * 默认脱敏策略--脱敏
+ * 默认脱敏策略
  * @author yhq
  * @date 2021年9月6日 13点30分
  */

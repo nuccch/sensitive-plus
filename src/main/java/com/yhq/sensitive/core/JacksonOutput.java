@@ -16,31 +16,30 @@ import java.io.IOException;
  * @date 2021年9月6日 14点02分
  */
 @Slf4j
-public class JsonMapper {
-
+public class JacksonOutput implements JsonOutput {
     private ObjectMapper mapper;
 
-    public JsonMapper() {
+    public JacksonOutput() {
         this(null);
     }
 
-    public JsonMapper(Include include) {
-        mapper = new ObjectMapper();
+    public JacksonOutput(Include include) {
+        this.mapper = new ObjectMapper();
         // 设置输出时包含属性的风格
         if (include != null) {
-            mapper.setSerializationInclusion(include);
+            this.mapper.setSerializationInclusion(include);
         }
 
         // 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        this.mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     /**
      * 创建只输出非Null的属性到Json字符串的Mapper.
      * @return jsonMapper
      */
-    public static JsonMapper nonNullMapper() {
-        return new JsonMapper(Include.NON_NULL);
+    public static JacksonOutput nonNullMapper() {
+        return new JacksonOutput(Include.NON_NULL);
     }
 
     /**
@@ -48,15 +47,13 @@ public class JsonMapper {
      * @param object pojo对象
      * @return jsonString
      */
+    @Override
     public String toJson(Object object) {
-
         try {
-            return mapper.writeValueAsString(object);
+            return this.mapper.writeValueAsString(sensitive(object));
         } catch (IOException e) {
             log.warn("write to json string error:" + object, e);
             return null;
         }
     }
-
-
 }

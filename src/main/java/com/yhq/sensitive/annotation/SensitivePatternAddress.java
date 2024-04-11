@@ -1,6 +1,5 @@
 package com.yhq.sensitive.annotation;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.yhq.sensitive.constant.SensitiveRegex;
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
 
@@ -19,7 +18,6 @@ import java.lang.annotation.*;
         pattern = SensitiveRegex.ADDRESS_DISPLAY_FIRST_FIVE_LAST_FOUR,
         replaceChar = SensitiveReplaceChars.ASTERISK_PATTERN_ADDRESS
 )
-@JacksonAnnotationsInside
 public @interface SensitivePatternAddress {
 
 }

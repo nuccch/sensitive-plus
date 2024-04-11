@@ -110,9 +110,7 @@ LOGGER.info("password: {}", SensitiveInfoUtils.password(password));
 
 user为实体对象
 ```
-log.info(JsonMapper.nonNullMapper().toJson(userEntity));
-或者
-log.info(SensitiveJsonUtils.toJsonString(entity));
+log.info(SensitiveJsonUtils.toJson(user));
 ```
 
 整体测试结果如下
@@ -138,6 +136,12 @@ log.info(SensitiveJsonUtils.toJsonString(entity));
 }
 ```
 
+目前支持3种JSON序列化组件：  
+[Jackson](https://github.com/FasterXML/jackson-databind)  
+[Fastjson](https://github.com/alibaba/fastjson)  
+[Gson](https://github.com/google/gson)  
+
+
 ## 5 、DFA算法 敏感词库脱敏
 
 读取敏感词库 com.yhq.sensitive.util.SensitiveWordInit
@@ -155,7 +159,7 @@ log.info(SensitiveJsonUtils.toJsonString(entity));
 ```
 com.yhq.sensitive.SensitiveWordFilterTest.test
 
-测试结果如下
+测试结果如下：
 
 17:02:43.507 [main] INFO com.yhq.sensitive.SensitiveWordFilterTest - 敏感词的数量：893
 17:02:43.511 [main] INFO com.yhq.sensitive.SensitiveWordFilterTest - 待检测语句字数：184

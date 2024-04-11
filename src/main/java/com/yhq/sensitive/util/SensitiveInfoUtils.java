@@ -354,12 +354,12 @@ public abstract class SensitiveInfoUtils {
     /**
      * 根据正则脱敏
      * @param content 内容
+     * @param replace 替换字符
      * @param pattern 正则定义
-     * @param replaceChar 替换字符
      * @return 脱敏后的数据
      */
-    public static String patternReplace(final String content,String pattern, String replaceChar) {
-        return content.replaceAll(pattern, replaceChar);
+    public static String patternReplace(final String content, String replace, String pattern) {
+        return content.replaceAll(pattern, replace);
     }
 
     /**

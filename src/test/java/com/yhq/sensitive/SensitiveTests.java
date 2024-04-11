@@ -1,7 +1,7 @@
 package com.yhq.sensitive;
 
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
-import com.yhq.sensitive.core.JsonMapper;
+import com.yhq.sensitive.core.JacksonOutput;
 import com.yhq.sensitive.enums.SensitiveLength;
 import com.yhq.sensitive.enums.SensitivePattern;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
@@ -41,7 +41,7 @@ public class SensitiveTests {
 
 	@Test
 	public void testToJsonStringV1() {
-		printSensitive(JsonMapper.nonNullMapper().toJson(userEntity));
+		printSensitive(JacksonOutput.nonNullMapper().toJson(userEntity));
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class SensitiveTests {
 	 */
 	@Test
 	public void testToJsonStringV2() {
-		printSensitive(SensitiveJsonUtils.toJsonString(userEntity));
+		printSensitive(SensitiveJsonUtils.toJson(userEntity));
 	}
 
 	/**

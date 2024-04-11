@@ -66,7 +66,7 @@ public class SensitiveLogTests {
      */
     @Test
     public void testSensitiveObject() {
-        LOGGER.info("entity: {}", SensitiveJsonUtils.toJsonString(entity));
+        LOGGER.info("entity: {}", SensitiveJsonUtils.toJson(entity));
     }
 
 }

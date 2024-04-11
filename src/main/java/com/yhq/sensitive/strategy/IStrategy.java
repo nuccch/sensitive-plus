@@ -22,12 +22,12 @@ public interface IStrategy {
     /**
      * 脱敏的具体实现方法
      * @param source 原来对象属性
+     * @param replace 替换后的字符
      * @param pattern 内容显示正则
-     * @param replaceChar 替换后的字符
      * @return 返回脱敏后的信息
      */
-    default String desensitizationByPattern(String source,String pattern,String replaceChar){
-        return SensitiveInfoUtils.patternReplace(source, pattern,replaceChar);
+    default String desensitizationByPattern(String source, String replace, String pattern){
+        return SensitiveInfoUtils.patternReplace(source, replace, pattern);
     }
 
 }

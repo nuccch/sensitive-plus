@@ -7,10 +7,10 @@ import com.alibaba.fastjson.JSON;
  * @author chench
  * @date 2024.04.11
  */
-public class FastJsonOutput implements JsonOutput {
-    private static final FastJsonOutput instance = new FastJsonOutput();
+public class FastJsonWrapper implements JsonOutput, SensitiveWrapper {
+    private static final FastJsonWrapper instance = new FastJsonWrapper();
 
-    public static FastJsonOutput getInstance() {
+    public static FastJsonWrapper getInstance() {
         return instance;
     }
 
@@ -19,5 +19,5 @@ public class FastJsonOutput implements JsonOutput {
         return JSON.toJSONString(sensitive(object));
     }
 
-    private FastJsonOutput() {}
+    private FastJsonWrapper() {}
 }

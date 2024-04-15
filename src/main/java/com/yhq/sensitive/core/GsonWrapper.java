@@ -7,11 +7,11 @@ import com.google.gson.Gson;
  * @author chench
  * @date 2024.04.11
  */
-public class GsonOutput implements JsonOutput {
-    private static final GsonOutput instance = new GsonOutput();
+public class GsonWrapper implements JsonOutput, SensitiveWrapper {
+    private static final GsonWrapper instance = new GsonWrapper();
     private Gson gson = new Gson();
 
-    public static GsonOutput getInstance() {
+    public static GsonWrapper getInstance() {
         return instance;
     }
 
@@ -20,5 +20,5 @@ public class GsonOutput implements JsonOutput {
         return this.gson.toJson(sensitive(object));
     }
 
-    private GsonOutput() {}
+    private GsonWrapper() {}
 }

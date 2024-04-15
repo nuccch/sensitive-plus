@@ -16,14 +16,14 @@ import java.io.IOException;
  * @date 2021年9月6日 14点02分
  */
 @Slf4j
-public class JacksonOutput implements JsonOutput {
+public class JacksonWrapper implements JsonOutput, SensitiveWrapper {
     private ObjectMapper mapper;
 
-    public JacksonOutput() {
+    public JacksonWrapper() {
         this(null);
     }
 
-    public JacksonOutput(Include include) {
+    public JacksonWrapper(Include include) {
         this.mapper = new ObjectMapper();
         // 设置输出时包含属性的风格
         if (include != null) {
@@ -38,8 +38,8 @@ public class JacksonOutput implements JsonOutput {
      * 创建只输出非Null的属性到Json字符串的Mapper.
      * @return jsonMapper
      */
-    public static JacksonOutput nonNullMapper() {
-        return new JacksonOutput(Include.NON_NULL);
+    public static JacksonWrapper nonNullMapper() {
+        return new JacksonWrapper(Include.NON_NULL);
     }
 
     /**

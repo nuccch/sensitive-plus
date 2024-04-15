@@ -1,18 +1,17 @@
 package com.yhq.sensitive.converter;
 
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.yhq.sensitive.core.SensitiveWrapper;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 
 /**
  * @author chench
  * @date 2024.04.12
  */
-public class SensitiveFastJsonMessageConverter extends MappingJackson2HttpMessageConverter
+public class SensitiveFastJsonMessageConverter extends FastJsonHttpMessageConverter
         implements SensitiveConverter, SensitiveWrapper {
 
     public SensitiveFastJsonMessageConverter() {
@@ -20,8 +19,8 @@ public class SensitiveFastJsonMessageConverter extends MappingJackson2HttpMessag
     }
 
     @Override
-    protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(Object object, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
         Object sensitive = sensitive(object);
-        super.writeInternal(sensitive, type, outputMessage);
+        super.writeInternal(sensitive, outputMessage);
     }
 }

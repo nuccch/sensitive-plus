@@ -1,18 +1,16 @@
 package com.yhq.sensitive.converter;
 
 import com.yhq.sensitive.core.SensitiveWrapper;
-import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
-import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Type;
 
 /**
  * @author chench
  * @date 2024.04.12
  */
-public class SensitiveGsonMessageConverter extends MappingJackson2HttpMessageConverter
+public class SensitiveGsonMessageConverter extends GsonHttpMessageConverter
         implements SensitiveConverter, SensitiveWrapper {
 
     public SensitiveGsonMessageConverter() {
@@ -20,8 +18,8 @@ public class SensitiveGsonMessageConverter extends MappingJackson2HttpMessageCon
     }
 
     @Override
-    protected void writeInternal(Object object, Type type, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+    protected void writeInternal(Object object, Type type, Writer writer) throws Exception {
         Object sensitive = sensitive(object);
-        super.writeInternal(sensitive, type, outputMessage);
+        super.writeInternal(sensitive, type, writer);
     }
 }

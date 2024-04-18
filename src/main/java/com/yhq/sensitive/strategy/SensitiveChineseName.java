@@ -12,7 +12,10 @@ public class SensitiveChineseName implements IStrategy {
 
     @Override
     public String desensitization(String source,String replace,int begin,int end) {
-        if(begin != SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin() && begin !=0){
+        if (!isDesensitizable(source)) {
+            return source;
+        }
+        if(begin != SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin() && begin !=0) {
             return SensitiveInfoUtils.chineseName(source, replace, begin);
         }
         return SensitiveInfoUtils.chineseName(source, replace, SensitiveLength.CHINESE_NAME_DISPLAY_FIRST_ONE.getBegin());

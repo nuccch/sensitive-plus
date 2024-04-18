@@ -12,6 +12,9 @@ public class SensitiveAddress implements IStrategy {
 
     @Override
     public String desensitization(String address, String replace, int begin, int end) {
+        if (!isDesensitizable(address)) {
+            return address;
+        }
         if(end != SensitiveLength.ADDRESS_HIDE_LAST_SIX.getEnd() && end !=0 ){
             return SensitiveInfoUtils.address(address,replace, end);
         }

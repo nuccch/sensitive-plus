@@ -12,6 +12,9 @@ public class SensitivePassword implements IStrategy {
 
     @Override
     public String desensitization(String password,String replace,int begin,int end) {
+        if (!isDesensitizable(password)) {
+            return password;
+        }
         if(begin != SensitiveLength.PASSWORD_REPLACE_SIX.getBegin() && begin !=0){
             return SensitiveInfoUtils.password(password, replace, begin);
         }

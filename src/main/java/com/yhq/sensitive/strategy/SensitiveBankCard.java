@@ -11,7 +11,10 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveBankCard implements IStrategy {
 
     @Override
-    public String desensitization(String bankCard,String replace,int begin, int end) {
+    public String desensitization(String bankCard, String replace, int begin, int end) {
+        if (!isDesensitizable(bankCard)) {
+            return bankCard;
+        }
         if(begin != SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getBegin() && begin !=0 &&
                 end != SensitiveLength.BANKCARD_DISPLAY_FIRST_SIX_LAST_FOUR.getEnd() && end !=0){
             return SensitiveInfoUtils.bankCard(bankCard,replace,begin,end);

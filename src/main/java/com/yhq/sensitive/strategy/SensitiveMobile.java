@@ -12,6 +12,9 @@ public class SensitiveMobile implements IStrategy {
 
     @Override
     public String desensitization(String mobile,String replace,int begin ,int end) {
+        if (!isDesensitizable(mobile)) {
+            return mobile;
+        }
         if(begin != SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getBegin() && begin !=0 &&
                 end != SensitiveLength.MOBILE_DISPLAY_FIRST_THREE_LAST_FOUR.getEnd() && end !=0){
             return SensitiveInfoUtils.mobilePhone(mobile,replace,begin,end);

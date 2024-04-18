@@ -11,11 +11,14 @@ import com.yhq.sensitive.util.SensitiveInfoUtils;
 public class SensitiveIdCard implements IStrategy {
 
     @Override
-    public String desensitization(String idCardNum,String replace,int begin ,int end) {
-        if(end != SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd() && end !=0){
-            return SensitiveInfoUtils.idCard(idCardNum, replace, end);
+    public String desensitization(String idCard,String replace,int begin ,int end) {
+        if (!isDesensitizable(idCard)) {
+            return idCard;
         }
-        return SensitiveInfoUtils.idCard(idCardNum, replace, SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
+        if(end != SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd() && end !=0){
+            return SensitiveInfoUtils.idCard(idCard, replace, end);
+        }
+        return SensitiveInfoUtils.idCard(idCard, replace, SensitiveLength.ID_CARD_DISPLAY_LAST_FOUR.getEnd());
     }
 
 }

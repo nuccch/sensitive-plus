@@ -12,6 +12,9 @@ public class SensitiveEmail implements IStrategy {
 
     @Override
     public String desensitization(String email,String replace,int begin,int end) {
+        if (!isDesensitizable(email)) {
+            return email;
+        }
         if(begin != SensitiveLength.EMAIL_DISPLAY_FIRST.getBegin() && begin !=0 ){
             return SensitiveInfoUtils.email(email,begin);
         }

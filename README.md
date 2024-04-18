@@ -1,8 +1,9 @@
 # README
 
 ## 1、说明
-数据脱敏插件，目前支持地址脱敏、银行卡号脱敏、中文姓名脱敏、固话脱敏、身份证号脱敏、手机号脱敏、密码脱敏
-一个是正则脱敏、另外一个根据显示长度脱敏，默认是正则脱敏，可以根据自己的需要配置自己的规则
+
+数据脱敏插件，目前支持地址脱敏、银行卡号脱敏、中文姓名脱敏、固话脱敏、身份证号脱敏、手机号脱敏、密码脱敏。
+一个是正则脱敏、另外一个根据显示长度脱敏，默认是正则脱敏，可以根据自己的需要配置自己的规则。
 
 具体使用请参考单元测试下的
 ```
@@ -10,6 +11,7 @@ com.yhq.sensitive.UserEntity
 com.yhq.sensitive.SimpleEntity
 com.yhq.sensitive.SensitiveTests
 com.yhq.sensitive.SensitiveLogTests
+com.yhq.sensitive.converter.SensitiveLogbackMessageConverterTest
 ```
 
 ## 2、注解说明
@@ -58,11 +60,33 @@ com.yhq.sensitive.SensitiveLogTests
 @SensitiveInfo(pattern = "(?<=\\w{6})\\w(?=\\w{4})",replaceChar = "*")
 ```
 
-## 4 、日志脱敏
+## 4、日志脱敏
 
-日志脱敏是在应用层先对日志内容脱敏再打印，分为两种情况处理。
+日志脱敏有2种实现办法：
+其一，基于Logback实现自定义`ch.qos.logback.classic.pattern.MessageConverter`，重写`convert()`方法。
+其二，打印日志之前先对消息内容进行脱敏。
 
-### 字符串
+
+### 基于MessageConverter
+
+需要在`logback.xml`中明确指定自定义MessageConverter，示例：
+```xml
+<conversionRule conversionWord="msg" converterClass="com.yhq.sensitive.converter.SensitiveLogbackMessageConverter"/>
+```
+这种方式实现的日志脱敏需要在打印日志时使用特定的格式，主要依赖正则表达式规则，如：
+```
+// 对手机号进行脱敏
+// 处理正则：(mobile|telephone)([:|=|,| ]+)(\w{3})(\w{4})(\w{4})
+log.info("mobile:{}", mobile);
+```
+另外，该方式实现的日志脱敏存在性能瓶颈，因为在`convert()`方法中需要对每条日志消息应用所有的脱敏规则。
+
+
+### 先脱敏再打印
+
+日志脱敏先在应用层先对日志内容脱敏再打印，分为两种情况处理。
+
+#### 字符串
 
 对于输出到日志中的内容是单纯的字符串这种情况，直接调用工具方法先脱敏后再打印到日志。
 ```
@@ -104,7 +128,7 @@ LOGGER.info("password: {}", SensitiveInfoUtils.password(password));
 14:24:54.198 [main] INFO com.yhq.sensitive.SensitiveLogTests - password: ******
 ```
 
-### 实体对象
+#### 实体对象
 
 如果打印到日志中的内容为实体对象，在打印日志之前将对象序列化为JSON字符串。
 
@@ -142,7 +166,47 @@ log.info(SensitiveJsonUtils.toJson(user));
 [Gson](https://github.com/google/gson)  
 
 
-## 5 、DFA算法 敏感词库脱敏
+## 5、接口数据脱敏
+
+目前支持基于Spring MVC框架的JSON响应数据脱敏处理。
+具体实现是在需要脱敏的实体属性上使用脱敏注解进行标注，并应用自定义`HttpMessageConverter`。
+```java
+public class Account {
+    private Long id = 0L;
+    @SensitiveLengthChineseName
+    private String username = "";
+    @SensitiveLengthPassword
+    private String password = "";
+    private Integer age = 0;
+    private Short sex = 0;
+    private Date createTime = null;
+    private Date updateTime = null;
+}
+
+@Configuration
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.extendMessageConverters(converters);
+        // 将自定义HttpMessageConverter放在第一个，确保生效
+        converters.add(0, new SensitiveFastJsonMessageConverter());
+    }
+}
+```
+这样，在接口返回JSON数据时会自动对使用了脱敏注解的属性进行处理，响应数据示例：
+```json
+{
+    "id": 1,
+    "username": "张**",
+    "password": "******",
+    "age": 23,
+    "sex": 1,
+    "createTime": null,
+    "updateTime": null
+}
+```
+
+## 6、DFA算法 敏感词库脱敏
 
 读取敏感词库 com.yhq.sensitive.util.SensitiveWordInit
 敏感词工具类 com.yhq.sensitive.util.SensitiveWordFilter
@@ -166,3 +230,13 @@ com.yhq.sensitive.SensitiveWordFilterTest.test
 17:02:43.511 [main] INFO com.yhq.sensitive.SensitiveWordFilterTest - 语句中包含敏感词的个数为：3个
 17:02:43.511 [main] INFO com.yhq.sensitive.SensitiveWordFilterTest - 总共消耗时间为：18
 ```
+
+## 7、其他
+
+该脱敏组件的基础实现基于开源项目：[sensitive-plus](https://gitee.com/strong_sea/sensitive-plus)，并做了大量重写和增强。
+主要的修改点：
+1. 完善脱敏注解
+2. 增加对Gson和FastJson序列化组件的支持
+3. 增加Spring MVC框架的HttpMessageConverter接口数据脱敏插件
+4. 增加基于Logback框架的MessageConverter日志脱敏插件
+

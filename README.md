@@ -233,7 +233,7 @@ com.yhq.sensitive.SensitiveWordFilterTest.test
 
 ## 7、其他
 
-该脱敏组件的基础实现基于开源项目：[sensitive-plus](https://gitee.com/strong_sea/sensitive-plus)，并做了大量重写和增强。
+该脱敏组件的基础实现基于开源项目：[sensitive-plus](https://gitee.com/strong_sea/sensitive-plus)，并做了大量重写和增强。  
 主要的修改点：
 1. 完善脱敏注解
 2. 增加对Gson和FastJson序列化组件的支持

@@ -1,5 +1,6 @@
 package com.yhq.sensitive;
 
+import com.alibaba.fastjson.JSON;
 import com.yhq.sensitive.util.SensitiveInfoUtils;
 import com.yhq.sensitive.util.SensitiveJsonUtils;
 import org.junit.jupiter.api.Test;
@@ -65,8 +66,13 @@ public class SensitiveLogTests {
      * 将对象类型转换为JSON字符串后打印日志
      */
     @Test
-    public void testSensitiveObject() {
+    public void testSensitiveObject2Json() {
         LOGGER.info("entity: {}", SensitiveJsonUtils.toJson(entity));
+    }
+
+    @Test
+    public void testSensitiveObject() {
+        LOGGER.info("entity: {}", JSON.toJSONString(SensitiveInfoUtils.desensitive(entity)));
     }
 
 }

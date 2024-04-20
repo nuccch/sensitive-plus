@@ -1,6 +1,7 @@
 package com.yhq.sensitive.util;
 
 import com.yhq.sensitive.constant.SensitiveReplaceChars;
+import com.yhq.sensitive.core.ObjectWrapper;
 import com.yhq.sensitive.enums.SensitiveLength;
 import com.yhq.sensitive.enums.SensitivePattern;
 import org.apache.commons.lang.StringUtils;
@@ -360,6 +361,15 @@ public abstract class SensitiveInfoUtils {
      */
     public static String patternReplace(final String content, String replace, String pattern) {
         return content.replaceAll(pattern, replace);
+    }
+
+    /**
+     * 对象属性脱敏
+     * @param object
+     * @return
+     */
+    public static Object desensitive(Object object) {
+        return new ObjectWrapper().sensitive(object);
     }
 
     /**

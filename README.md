@@ -2,10 +2,10 @@
 
 ## 1、说明
 
-数据脱敏插件，目前支持地址脱敏、银行卡号脱敏、中文姓名脱敏、固话脱敏、身份证号脱敏、手机号脱敏、密码脱敏。
-一个是正则脱敏、另外一个根据显示长度脱敏，默认是正则脱敏，可以根据自己的需要配置自己的规则。
+数据脱敏插件，目前支持地址脱敏、银行卡号脱敏、中文姓名脱敏、固话脱敏、身份证号脱敏、手机号脱敏、密码脱敏。  
+一个是正则脱敏、另外一个根据显示长度脱敏，默认是正则脱敏，可以根据自己的需要配置自己的规则。  
 
-具体使用请参考单元测试下的
+具体使用请参考单元测试下的  
 ```
 com.yhq.sensitive.UserEntity
 com.yhq.sensitive.SimpleEntity
@@ -62,33 +62,33 @@ com.yhq.sensitive.converter.SensitiveLogbackMessageConverterTest
 
 ## 4、日志脱敏
 
-日志脱敏有2种实现办法：
-其一，基于Logback实现自定义`ch.qos.logback.classic.pattern.MessageConverter`，重写`convert()`方法。
-其二，打印日志之前先对消息内容进行脱敏。
+日志脱敏有2种实现办法：  
+其一，基于Logback实现自定义`ch.qos.logback.classic.pattern.MessageConverter`，重写`convert()`方法。  
+其二，打印日志之前先对消息内容进行脱敏。  
 
 
 ### 基于MessageConverter
 
-需要在`logback.xml`中明确指定自定义MessageConverter，示例：
+需要在`logback.xml`中明确指定自定义MessageConverter，示例：  
 ```xml
 <conversionRule conversionWord="msg" converterClass="com.yhq.sensitive.converter.SensitiveLogbackMessageConverter"/>
 ```
-这种方式实现的日志脱敏需要在打印日志时使用特定的格式，主要依赖正则表达式规则，如：
+这种方式实现的日志脱敏需要在打印日志时使用特定的格式，主要依赖正则表达式规则，如：  
 ```
 // 对手机号进行脱敏
 // 处理正则：(mobile|telephone)([:|=|,| ]+)(\w{3})(\w{4})(\w{4})
 log.info("mobile:{}", mobile);
 ```
-另外，该方式实现的日志脱敏存在性能瓶颈，因为在`convert()`方法中需要对每条日志消息应用所有的脱敏规则。
+另外，该方式实现的日志脱敏存在性能瓶颈，因为在`convert()`方法中需要对每条日志消息应用所有的脱敏规则。  
 
 
 ### 先脱敏再打印
 
-日志脱敏先在应用层先对日志内容脱敏再打印，分为两种情况处理。
+日志脱敏先在应用层先对日志内容脱敏再打印，分为两种情况处理。  
 
 #### 字符串
 
-对于输出到日志中的内容是单纯的字符串这种情况，直接调用工具方法先脱敏后再打印到日志。
+对于输出到日志中的内容是单纯的字符串这种情况，直接调用工具方法先脱敏后再打印到日志。  
 ```
 String chineseName = "赵子龙";
 String mobile = "13242429876";
@@ -130,14 +130,14 @@ LOGGER.info("password: {}", SensitiveInfoUtils.password(password));
 
 #### 实体对象
 
-如果打印到日志中的内容为实体对象，在打印日志之前将对象序列化为JSON字符串。
+如果打印到日志中的内容为实体对象，在打印日志之前将对象序列化为JSON字符串。  
 
-user为实体对象
+user为实体对象  
 ```
 log.info(SensitiveJsonUtils.toJson(user));
 ```
 
-整体测试结果如下
+整体测试结果如下  
 ```
 {
 	"userNamePattern": "张**",
@@ -168,8 +168,8 @@ log.info(SensitiveJsonUtils.toJson(user));
 
 ## 5、接口数据脱敏
 
-目前支持基于Spring MVC框架的JSON响应数据脱敏处理。
-具体实现是在需要脱敏的实体属性上使用脱敏注解进行标注，并应用自定义`HttpMessageConverter`。
+目前支持基于Spring MVC框架的JSON响应数据脱敏处理。  
+具体实现是在需要脱敏的实体属性上使用脱敏注解进行标注，并应用自定义`HttpMessageConverter`。  
 ```java
 public class Account {
     private Long id = 0L;
@@ -193,7 +193,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 }
 ```
-这样，在接口返回JSON数据时会自动对使用了脱敏注解的属性进行处理，响应数据示例：
+这样，在接口返回JSON数据时会自动对使用了脱敏注解的属性进行处理，响应数据示例：  
 ```json
 {
     "id": 1,
@@ -205,6 +205,8 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     "updateTime": null
 }
 ```
+参考[SpringBoot中自定义HttpMessageConverter](https://juejin.cn/post/7007715644774825992)  
+
 
 ## 6、DFA算法 敏感词库脱敏
 
@@ -234,9 +236,11 @@ com.yhq.sensitive.SensitiveWordFilterTest.test
 ## 7、其他
 
 该脱敏组件的基础实现基于开源项目：[sensitive-plus](https://gitee.com/strong_sea/sensitive-plus)，并做了大量重写和增强。  
-主要的修改点：
-1. 完善脱敏注解
-2. 增加对Gson和FastJson序列化组件的支持
-3. 增加Spring MVC框架的HttpMessageConverter接口数据脱敏插件
-4. 增加基于Logback框架的MessageConverter日志脱敏插件
+主要的修改点：  
+1. 完善脱敏注解  
+2. 增加对Gson和FastJson序列化组件的支持  
+3. 增加Spring MVC框架的HttpMessageConverter接口数据脱敏插件  
+4. 增加基于Logback框架的MessageConverter日志脱敏插件  
+
+
 
